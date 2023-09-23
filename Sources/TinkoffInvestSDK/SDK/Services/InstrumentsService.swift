@@ -47,7 +47,8 @@ public protocol InstrumentsService {
 
     func getBond(params: InstrumentParameters) -> AnyPublisher<BondResponse, RPCError>
     func getBonds(with status: InstrumentStatus) -> AnyPublisher<BondsResponse, RPCError>
-
+	func getBondsCoupons(request: GetBondCouponsRequest) -> AnyPublisher<GetBondCouponsResponse, RPCError>
+	
     func getCurrency(params: InstrumentParameters) -> AnyPublisher<CurrencyResponse, RPCError>
     func getCurrencies(with status: InstrumentStatus) -> AnyPublisher<CurrenciesResponse, RPCError>
 
@@ -98,6 +99,10 @@ final class GRPCInstrumentsService: BaseCombineGRPCService, InstrumentsService {
         request.instrumentStatus = status
         return executor.call(client.bonds)(request)
     }
+	
+	func getBondsCoupons(request: GetBondCouponsRequest) -> AnyPublisher<GetBondCouponsResponse, RPCError> {
+		return executor.call(client.getBondCoupons(_:callOptions:))(request)
+	}
 
     // MARK: - Currencies
 
